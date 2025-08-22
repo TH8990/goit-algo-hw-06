@@ -37,11 +37,22 @@ class Record:
             self.phones.remove(phone)
 
     def edit_phone(self, old_phone, new_phone):
+        """
+        Редагує існуючий номер телефону контакту.
+
+        Операція є атомарною: якщо новий номер є невалідним,
+        старий номер не буде видалено.
+
+        Винятки:
+            ValueError: Якщо старий номер телефону не знайдено.
+            ValueError: Якщо новий номер телефону не відповідає
+                        вимогам валідації.
+        """
         phone_to_edit = self.find_phone(old_phone)
         if phone_to_edit:
-            self.add_phone(new_phone) #phone_to_edit.value = new_phone
-            #Використовуємо існуючий метод для видалення старого телефону.
-            self.remove_phone(old_phone)
+            new_phone_obj = Phone(new_phone)  # Валідація нового номера
+            self.remove_phone(old_phone)      # Видалення старого
+            self.phones.append(new_phone_obj) # Додавання нового
         else:
             raise ValueError("Номер телефону не знайдено.")
 
