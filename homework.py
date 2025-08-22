@@ -39,7 +39,9 @@ class Record:
     def edit_phone(self, old_phone, new_phone):
         phone_to_edit = self.find_phone(old_phone)
         if phone_to_edit:
-            phone_to_edit.value = new_phone
+            self.add_phone(new_phone) #phone_to_edit.value = new_phone
+            #Використовуємо існуючий метод для видалення старого телефону.
+            self.remove_phone(old_phone)
         else:
             raise ValueError("Номер телефону не знайдено.")
 
